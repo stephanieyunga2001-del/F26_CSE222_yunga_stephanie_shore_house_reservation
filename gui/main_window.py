@@ -2,13 +2,25 @@ import tkinter as tk
 
 
 class MainWindow:
+    pass
+
+
+class MainGui:
     def __init__(self):
         self.main_win = tk.Tk()
         self.main_win.title("Bay Shore Get-Away")
         self.main_win.minsize(width=550, height=200)
 
+        self.photo = tk.PhotoImage(file="shorepicture.png")
+
+        self.image_label = tk.Label(
+            self.main_win,
+            image=self.photo
+        )
+        self.image_label.pack(pady=20)
+
         self.button_frame = tk.Frame(self.main_win)
-        self.button_frame.pack(pady=50)
+        self.button_frame.pack(pady=10)
 
         self.login_button = tk.Button(
             self.button_frame,
@@ -32,4 +44,4 @@ class MainWindow:
         self.main_win.mainloop()
 
 
-MainWindow()
+MainGui()
