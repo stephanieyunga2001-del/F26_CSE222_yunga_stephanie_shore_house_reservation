@@ -68,4 +68,5 @@ class LoginGui:  # declares class
 
 
 # Create an instance
-loginSystem = LoginGui()
+if __name__ == "__main__":
+    loginSystem = LoginGui()

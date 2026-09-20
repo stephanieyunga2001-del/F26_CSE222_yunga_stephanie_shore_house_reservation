@@ -74,4 +74,5 @@ class AccountGUI:  # declares class
 
 
 # Create an instance
-accountGui = AccountGUI()
+if __name__ == "__main__":
+    accountGui = AccountGUI()

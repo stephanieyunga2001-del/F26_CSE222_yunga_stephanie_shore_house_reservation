@@ -1,8 +1,10 @@
-import tkinter as tk  # Import the tkinter module for GUI creation
+import tkinter as tk
+from login_gui import LoginGui
+from account_gui import AccountGUI
 
 
 class MainWindow:
-    pass  # Placeholder class for future functionality
+    pass
 
 
 class MainGui:
@@ -31,14 +33,16 @@ class MainGui:
         # Create the User Login button
         self.login_button = tk.Button(
             self.button_frame,
-            text="User Login"
+            text="User Login",
+            command=self.open_login
         )
         self.login_button.pack(side="left", padx=10)
 
         # Create the Create Account button
         self.create_button = tk.Button(
             self.button_frame,
-            text="Create Account"
+            text="Create Account",
+            command=self.open_account
         )
         self.create_button.pack(side="left", padx=10)
 
@@ -52,6 +56,14 @@ class MainGui:
 
         # Start the GUI event loop
         self.main_win.mainloop()
+
+    def open_login(self):
+        self.main_win.destroy()
+        LoginGui()
+
+    def open_account(self):
+        self.main_win.destroy()
+        AccountGUI()
 
 
 # Create an instance of the GUI and launch the application
