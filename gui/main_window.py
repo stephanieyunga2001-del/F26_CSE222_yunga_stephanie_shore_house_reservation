@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from account_gui import AccountGUI
 
 
 class MainWindow:
@@ -82,7 +83,8 @@ class MainWindow:
         self.create_acct_button = tk.Button(
             text=" Create Account ",
             width=18,
-            font=("Helvetica", 10)
+            font=("Helvetica", 10),
+            command=self.open_account
         )
         self.create_acct_button.grid(
             row=6,
@@ -105,8 +107,12 @@ class MainWindow:
             pady=15
         )
 
-        # Enter the tkinter main loop
+                # Enter the tkinter main loop
         tk.mainloop()
+
+    # Open the Account Creation window
+    def open_account(self):
+        AccountGUI()
 
 
 # Create an instance of the class
