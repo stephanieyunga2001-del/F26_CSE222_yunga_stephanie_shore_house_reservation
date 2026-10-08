@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from account_gui import AccountGUI
+from login_gui import LoginGUI
 
 
 class MainWindow:
@@ -70,7 +71,8 @@ class MainWindow:
         self.login_button = tk.Button(
             text=" User Login ",
             width=16,
-            font=("Helvetica", 10)
+            font=("Helvetica", 10),
+            command=self.open_login
         )
         self.login_button.grid(
             row=6,
@@ -113,6 +115,10 @@ class MainWindow:
     # Open the Account Creation window
     def open_account(self):
         AccountGUI()
+
+        # Open the User Login window
+    def open_login(self):
+        LoginGUI()
 
 
 # Create an instance of the class
