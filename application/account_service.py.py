@@ -1,3 +1,4 @@
+# Validates password complexity and length requirements
 def validate_password(password):
     """Check whether a password meets all requirements."""
 
@@ -6,7 +7,7 @@ def validate_password(password):
 
     if not any(char.isupper() for char in password):
         return "Password must contain at least one uppercase letter."
-
+    
     if not any(char.islower() for char in password):
         return "Password must contain at least one lowercase letter."
 
