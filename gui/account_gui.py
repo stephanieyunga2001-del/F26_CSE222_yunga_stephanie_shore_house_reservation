@@ -146,7 +146,7 @@ class AccountGUI:
         hashed_password = hash_password(password)
 
         # Save the username and hashed password
-        account[username] = hashed_password
+        accounts[username] = hashed_password
         
         if save_accounts(accounts):
             # Display a confirmation message when the account is saved
