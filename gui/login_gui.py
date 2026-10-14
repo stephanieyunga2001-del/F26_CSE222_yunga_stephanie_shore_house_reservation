@@ -106,8 +106,16 @@ class LoginGui:
             # Close the login window
             self.main_win.destroy()
 
+            # Remove the previous main menu widgets
+            for widget in self.parent.winfo_children():
+                widget.destroy()
+
             # Open the reservation window using the existing root
             ShoreHouseApp(self.parent)
+
+            # Make sure the reservation window is visible
+            self.parent.deiconify()
+            self.parent.lift()
 
         else:
             # Display an error if login fails

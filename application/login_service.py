@@ -1,7 +1,6 @@
 from data.account_storage import load_accounts
 from application.password_utils import verify_password
 
-
 def login_user(username, password):
     """Verify a user's login credentials."""
 

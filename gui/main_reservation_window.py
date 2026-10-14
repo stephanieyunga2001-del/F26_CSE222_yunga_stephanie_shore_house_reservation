@@ -3,6 +3,7 @@ from tkinter import ttk
 
 
 class ShoreHouseApp:
+
     def __init__(self, main_win):
         # Use the existing main application window
         self.main_win = main_win
@@ -26,7 +27,7 @@ class ShoreHouseApp:
         self.content_frame = tk.Frame(self.main_win, bg="#F0F0F0")
         self.content_frame.pack(fill="x", padx=40)
 
-        # Left Side: Dedicated frame containing your native PhotoImage asset
+        # Left Side: Dedicated frame for photo
         self.image_spacer = tk.Frame(
             self.content_frame,
             width=310,
@@ -36,14 +37,17 @@ class ShoreHouseApp:
         self.image_spacer.pack(side="left")
         self.image_spacer.pack_propagate(False)  # Prevents the frame from shrinking down
 
-        # Load the image to be displayed in the window using native tk.PhotoImage
-        # Note: Native PhotoImage supports PNG files (not JPG)
-        self.photo = tk.PhotoImage(file="gui/shorehouse_image.png")
-
-        # Create and display the image label nested into the layout spacer frame
+        # --- FIXED IMAGE SCALING MATH BLOCK ---
+        # 1. Load your primary high-resolution raw image file
+        raw_photo = tk.PhotoImage(file="gui/shorehouse_image.png")
+        
+        # 2. Automatically scale down the image using native integer ratios 
+        # (Change these values to 3, 4, etc. if your raw image is massive)
+        self.main_win.shore_photo = raw_photo.subsample(2, 2)
+        
         self.image_label = tk.Label(
             self.image_spacer,
-            image=self.photo,
+            image=self.main_win.shore_photo,
             bd=0
         )
         self.image_label.pack(fill="both", expand=True)
