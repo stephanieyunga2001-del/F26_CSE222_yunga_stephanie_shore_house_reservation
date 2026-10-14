@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from application.login_service import login_user as verify_login
+from gui.main_reservation_window import ShoreHouseApp
 
 
 class LoginGui:
@@ -80,7 +81,10 @@ class LoginGui:
         )
 
     def close_window(self):
+        # Close the login window
         self.main_win.destroy()
+
+        # Return to the original window
         self.parent.deiconify()
 
     def login_user(self, event=None):
@@ -102,8 +106,8 @@ class LoginGui:
             # Close the login window
             self.main_win.destroy()
 
-            # Return to the original main window
-            self.parent.deiconify()
+            # Open the reservation window using the existing root
+            ShoreHouseApp(self.parent)
 
         else:
             # Display an error if login fails
