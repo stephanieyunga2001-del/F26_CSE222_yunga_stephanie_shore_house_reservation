@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+from application.login_service import login_user as verify_login
+
 
 class LoginGui:
 
@@ -82,11 +84,45 @@ class LoginGui:
         self.parent.deiconify()
 
     def login_user(self, event=None):
-        pass
+        # Get the username and password entered by the user
+        username = self.username_entry.get().strip()
+        password = self.password_entry.get()
 
+        # Check the login details using the application layer
+        success, message = verify_login(username, password)
 
+        if success:
+            # Display a confirmation message when login succeeds
+            messagebox.showinfo(
+                "Login Successful",
+                message,
+                parent=self.main_win
+            )
+
+            # Close the login window
+            self.main_win.destroy()
+
+            # Return to the original main window
+            self.parent.deiconify()
+
+        else:
+            # Display an error if login fails
+            messagebox.showerror(
+                "Login Failed",
+                message,
+                parent=self.main_win
+            )
+
+            # Clear the password entry field
+            self.password_entry.delete(0, tk.END)
+
+            # Return the cursor to the password entry field
+            self.password_entry.focus_set()
 
 
 # Create an instance
 if __name__ == "__main__":
-    loginSystem = LoginGui()
+    root = tk.Tk()
+    root.withdraw()
+    loginSystem = LoginGui(root)
+    root.mainloop()
