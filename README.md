@@ -18,8 +18,12 @@ CSE222-python-project-starter-code/
 │   └── README.md
 └── gui/
     ├── README.md
+    ├── shorepicture.png
+    ├── shorehouse_image.jpg
+    ├── loginpicture.png
     ├── main_window.py
     ├── login_gui.py
+    ├── main_reservation_window.py
     └── account_gui.py
 ```
 
