@@ -58,12 +58,12 @@ class MainGui:
         self.main_win.mainloop()
 
     def open_login(self):
-        self.main_win.destroy()
-        LoginGui()
+        self.main_win.withdraw()
+        LoginGui(self.main_win)
 
     def open_account(self):
-        self.main_win.destroy()
-        AccountGUI()
+        self.main_win.withdraw()
+        AccountGUI(self.main_win)
 
 
 # Create an instance of the GUI and launch the application
