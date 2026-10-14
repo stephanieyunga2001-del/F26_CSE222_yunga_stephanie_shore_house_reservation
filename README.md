@@ -8,6 +8,8 @@ CSE222-python-project-starter-code/
 ├── application/
 │   └── README.md
 ├── data/
+|   ├── account_storage
+|   ├── __init__
 │   └── README.md
 └── gui/
     ├── README.md
