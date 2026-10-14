@@ -88,8 +88,53 @@ class AccountGUI:
         self.parent.deiconify()
 
     def submit_account(self, event=None):
-        pass
+        password = self.password_entry.get()
+
+        if len(password) < 9:
+            messagebox.showerror(
+                "Invalid Password",
+                "Password must be at least 9 characters long."
+            )
+            self.password_entry.delete(0, tk.END)
+            self.password_entry.focus_set()
+            return
+
+        if not any(char.isupper() for char in password):
+            messagebox.showerror(
+                "Invalid Password",
+                "Password must contain at least one uppercase letter."
+            )
+            self.password_entry.delete(0, tk.END)
+            self.password_entry.focus_set()
+            return
+
+        if not any(char.islower() for char in password):
+            messagebox.showerror(
+                "Invalid Password",
+                "Password must contain at least one lowercase letter."
+            )
+            self.password_entry.delete(0, tk.END)
+            self.password_entry.focus_set()
+            return
+
+        if not any(char.isdigit() for char in password):
+            messagebox.showerror(
+                "Invalid Password",
+                "Password must contain at least one digit."
+            )
+            self.password_entry.delete(0, tk.END)
+            self.password_entry.focus_set()
+            return
+
+        messagebox.showinfo(
+            "Password Valid",
+            "Your password meets all requirements!"
+        )
+
 
 # Create an instance
 if __name__ == "__main__":
-    accountGui = AccountGUI()
+    root = tk.Tk()
+    root.withdraw()
+    accountGui = AccountGUI(root)
+    root.mainloop()
