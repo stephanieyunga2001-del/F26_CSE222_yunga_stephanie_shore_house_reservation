@@ -9,6 +9,7 @@ CSE222-python-project-starter-code/
 │   └── README.md
 ├── data/
 |   ├── account_storage
+|   ├── accounts.json
 |   ├── __init__
 │   └── README.md
 └── gui/
