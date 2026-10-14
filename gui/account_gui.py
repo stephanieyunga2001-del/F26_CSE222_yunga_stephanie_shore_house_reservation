@@ -87,45 +87,67 @@ class AccountGUI:
         self.main_win.destroy()
         self.parent.deiconify()
 
-    def submit_account(self, event=None):
+def submit_account(self, event=None):
+        # Get the password entered by the user
         password = self.password_entry.get()
 
+        # Check if the password is at least 9 characters long
         if len(password) < 9:
+            # Display an error message if the password is too short
             messagebox.showerror(
                 "Invalid Password",
                 "Password must be at least 9 characters long."
             )
+            # Clear the password entry field
             self.password_entry.delete(0, tk.END)
+            # Return the cursor to the password entry field
             self.password_entry.focus_set()
+            # Stop checking the password
             return
 
+        # Check if the password contains at least one uppercase letter
         if not any(char.isupper() for char in password):
+            # Display an error message if no uppercase letter is found
             messagebox.showerror(
                 "Invalid Password",
                 "Password must contain at least one uppercase letter."
             )
+            # Clear the password entry field
             self.password_entry.delete(0, tk.END)
+            # Return the cursor to the password entry field
             self.password_entry.focus_set()
+            # Stop checking the password
             return
 
+        # Check if the password contains at least one lowercase letter
         if not any(char.islower() for char in password):
+            # Display an error message if no lowercase letter is found
             messagebox.showerror(
                 "Invalid Password",
                 "Password must contain at least one lowercase letter."
             )
+            # Clear the password entry field
             self.password_entry.delete(0, tk.END)
+            # Return the cursor to the password entry field
             self.password_entry.focus_set()
+            # Stop checking the password
             return
 
+        # Check if the password contains at least one digit
         if not any(char.isdigit() for char in password):
+            # Display an error message if no digit is found
             messagebox.showerror(
                 "Invalid Password",
                 "Password must contain at least one digit."
             )
+            # Clear the password entry field
             self.password_entry.delete(0, tk.END)
+            # Return the cursor to the password entry field
             self.password_entry.focus_set()
+            # Stop checking the password
             return
 
+        # Display a confirmation message if all requirements are met
         messagebox.showinfo(
             "Password Valid",
             "Your password meets all requirements!"
