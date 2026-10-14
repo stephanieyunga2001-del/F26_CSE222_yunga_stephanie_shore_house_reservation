@@ -1,13 +1,17 @@
-import tkinter as tk  # import the tkinter module
+import tkinter as tk
 from tkinter import messagebox
 
 
-class AccountGUI:  # declares class
+class AccountGUI:
 
-    def __init__(self):  # initialization function
-        self.main_win = tk.Tk()  # main window creation
-        self.main_win.title("Account Creation")  # title bar label
-        self.main_win.minsize(width=500, height=400)  # window size
+    def __init__(self, main_win):
+        # Keep a reference to the original main window
+        self.parent = main_win
+
+        # Create a separate account creation window
+        self.main_win = tk.Toplevel(self.parent)
+        self.main_win.title("Account Creation")
+        self.main_win.minsize(width=500, height=400)
 
         # Row configuration to properly center content
         self.main_win.rowconfigure(0, weight=1)
@@ -18,7 +22,9 @@ class AccountGUI:  # declares class
 
         # Frame that clusters all the username widgets
         self.username_frame = tk.Frame(self.main_win)
-        self.username_frame.grid(row=0, column=0, pady=(30, 10))
+        self.username_frame.grid(
+            row=0, column=0, pady=(30, 10)
+        )
 
         # Username entry field instruction label
         self.username_label = tk.Label(
@@ -38,9 +44,11 @@ class AccountGUI:  # declares class
 
         # Frame that clusters all the password widgets
         self.password_frame = tk.Frame(self.main_win)
-        self.password_frame.grid(row=1, column=0, pady=(10, 30))
+        self.password_frame.grid(
+            row=1, column=0, pady=(10, 30)
+        )
 
-        # Text block containing password requirements and enter key instruction
+        # Password requirements and Enter instruction
         password_text = (
             "Create a password of at least nine (9) characters,\n"
             "that contains at least one digit, one uppercase,\n"
@@ -60,18 +68,27 @@ class AccountGUI:  # declares class
         self.password_entry = tk.Entry(
             self.password_frame,
             width=35,
-            font=("Arial", 11)
+            font=("Arial", 11),
+            show="*"
         )
         self.password_entry.pack(pady=5)
 
-        # Binds the entry field to trigger code logic when enter is pressed
-        self.password_entry.bind("<Return>", self.submit_account)
+        # Bind Enter to the account submission function
+        self.password_entry.bind(
+            "<Return>", self.submit_account
+        )
 
-        self.main_win.mainloop()  # starts loop to keep window open
+        # Return to the original window when X is clicked
+        self.main_win.protocol(
+            "WM_DELETE_WINDOW", self.close_window
+        )
 
-    def submit_account(self, event):  # placeholder for enter press trigger
+    def close_window(self):
+        self.main_win.destroy()
+        self.parent.deiconify()
+
+    def submit_account(self, event=None):
         pass
-
 
 # Create an instance
 if __name__ == "__main__":
