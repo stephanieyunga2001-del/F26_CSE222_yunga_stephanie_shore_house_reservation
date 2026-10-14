@@ -1,3 +1,4 @@
+from application.password_utils import hash_password
 # Validates password complexity and length requirements
 def validate_password(password):
     """Check whether a password meets all requirements."""

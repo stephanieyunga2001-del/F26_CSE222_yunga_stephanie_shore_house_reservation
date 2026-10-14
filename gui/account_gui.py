@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from data.account_storage import load_accounts, save_accounts
+from application.account_service import validate_password
+from application.password_utils import hash_password
 
 
 class AccountGUI:
@@ -106,63 +108,23 @@ class AccountGUI:
             self.username_entry.focus_set()
             return
 
-        # Check if the password is at least 9 characters long
-        if len(password) < 9:
-            # Display an error message if the password is too short
-            messagebox.showerror(
-                "Invalid Password",
-                "Password must be at least 9 characters long.",
-                parent=self.main_win
-            )
-            # Clear the password entry field
-            self.password_entry.delete(0, tk.END)
-            # Return the cursor to the password entry field
-            self.password_entry.focus_set()
-            # Stop checking the password
-            return
+        # Check if the password meets all requirements
+        password_error = validate_password(password)
 
-        # Check if the password contains at least one uppercase letter
-        if not any(char.isupper() for char in password):
-            # Display an error message if no uppercase letter is found
+        if password_error:
+            # Display an error message if the password is invalid
             messagebox.showerror(
                 "Invalid Password",
-                "Password must contain at least one uppercase letter.",
+                password_error,
                 parent=self.main_win
             )
-            # Clear the password entry field
-            self.password_entry.delete(0, tk.END)
-            # Return the cursor to the password entry field
-            self.password_entry.focus_set()
-            # Stop checking the password
-            return
 
-        # Check if the password contains at least one lowercase letter
-        if not any(char.islower() for char in password):
-            # Display an error message if no lowercase letter is found
-            messagebox.showerror(
-                "Invalid Password",
-                "Password must contain at least one lowercase letter.",
-                parent=self.main_win
-            )
             # Clear the password entry field
             self.password_entry.delete(0, tk.END)
-            # Return the cursor to the password entry field
-            self.password_entry.focus_set()
-            # Stop checking the password
-            return
 
-        # Check if the password contains at least one digit
-        if not any(char.isdigit() for char in password):
-            # Display an error message if no digit is found
-            messagebox.showerror(
-                "Invalid Password",
-                "Password must contain at least one digit.",
-                parent=self.main_win
-            )
-            # Clear the password entry field
-            self.password_entry.delete(0, tk.END)
             # Return the cursor to the password entry field
             self.password_entry.focus_set()
+
             # Stop checking the password
             return
 
@@ -180,9 +142,12 @@ class AccountGUI:
             self.username_entry.focus_set()
             return
 
-        # Save the username and password
-        accounts[username] = password
+        # Hashes the password before saving the account
+        hashed_password = hash_password(password)
 
+        # Save the username and hashed password
+        account[username] = hashed_password
+        
         if save_accounts(accounts):
             # Display a confirmation message when the account is saved
             messagebox.showinfo(
