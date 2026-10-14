@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
-
+from data.account_storage import load_accounts, save_accounts
 
 class AccountGUI:
 
