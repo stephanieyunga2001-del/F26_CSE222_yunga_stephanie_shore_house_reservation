@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from data.account_storage import load_accounts, save_accounts
 
+
 class AccountGUI:
 
     def __init__(self, main_win):
@@ -84,19 +85,34 @@ class AccountGUI:
         )
 
     def close_window(self):
+        # Close the account creation window
         self.main_win.destroy()
+
+        # Return to the original main window
         self.parent.deiconify()
 
-def submit_account(self, event=None):
-        # Get the password entered by the user
+    def submit_account(self, event=None):
+        # Get the username and password entered by the user
+        username = self.username_entry.get().strip()
         password = self.password_entry.get()
+
+        # Check if the username is empty
+        if not username:
+            messagebox.showerror(
+                "Invalid Username",
+                "Please enter a username.",
+                parent=self.main_win
+            )
+            self.username_entry.focus_set()
+            return
 
         # Check if the password is at least 9 characters long
         if len(password) < 9:
             # Display an error message if the password is too short
             messagebox.showerror(
                 "Invalid Password",
-                "Password must be at least 9 characters long."
+                "Password must be at least 9 characters long.",
+                parent=self.main_win
             )
             # Clear the password entry field
             self.password_entry.delete(0, tk.END)
@@ -110,7 +126,8 @@ def submit_account(self, event=None):
             # Display an error message if no uppercase letter is found
             messagebox.showerror(
                 "Invalid Password",
-                "Password must contain at least one uppercase letter."
+                "Password must contain at least one uppercase letter.",
+                parent=self.main_win
             )
             # Clear the password entry field
             self.password_entry.delete(0, tk.END)
@@ -124,7 +141,8 @@ def submit_account(self, event=None):
             # Display an error message if no lowercase letter is found
             messagebox.showerror(
                 "Invalid Password",
-                "Password must contain at least one lowercase letter."
+                "Password must contain at least one lowercase letter.",
+                parent=self.main_win
             )
             # Clear the password entry field
             self.password_entry.delete(0, tk.END)
@@ -138,7 +156,8 @@ def submit_account(self, event=None):
             # Display an error message if no digit is found
             messagebox.showerror(
                 "Invalid Password",
-                "Password must contain at least one digit."
+                "Password must contain at least one digit.",
+                parent=self.main_win
             )
             # Clear the password entry field
             self.password_entry.delete(0, tk.END)
@@ -147,11 +166,44 @@ def submit_account(self, event=None):
             # Stop checking the password
             return
 
-        # Display a confirmation message if all requirements are met
-        messagebox.showinfo(
-            "Password Valid",
-            "Your password meets all requirements!"
-        )
+        # Load existing accounts from the storage file
+        accounts = load_accounts()
+
+        # Check if the username already exists
+        if any(name.lower() == username.lower() for name in accounts):
+            messagebox.showerror(
+                "Username Taken",
+                "That username already exists. Please choose another.",
+                parent=self.main_win
+            )
+            self.username_entry.delete(0, tk.END)
+            self.username_entry.focus_set()
+            return
+
+        # Save the username and password
+        accounts[username] = password
+
+        if save_accounts(accounts):
+            # Display a confirmation message when the account is saved
+            messagebox.showinfo(
+                "Account Created",
+                "Your account was created successfully!",
+                parent=self.main_win
+            )
+
+            # Close the account creation window
+            self.main_win.destroy()
+
+            # Return to the original main window
+            self.parent.deiconify()
+
+        else:
+            # Display an error if the account could not be saved
+            messagebox.showerror(
+                "Save Error",
+                "Unable to save account information.",
+                parent=self.main_win
+            )
 
 
 # Create an instance

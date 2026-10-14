@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
 
-
 class LoginGui:
 
     def __init__(self, main_win):
@@ -20,7 +19,7 @@ class LoginGui:
         self.main_win.columnconfigure(0, weight=1)
 
         # Main image for GUI
-        self.photo = tk.PhotoImage(file="loginpicture.png")
+        self.photo = tk.PhotoImage(file="gui/loginpicture.png")
         self.labelGIF = tk.Label(self.main_win, image=self.photo)
         self.labelGIF.grid(row=0, column=0, pady=(15, 5))
 

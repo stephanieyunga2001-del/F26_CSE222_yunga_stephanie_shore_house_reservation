@@ -1,7 +1,6 @@
 import tkinter as tk
-from login_gui import LoginGui
-from account_gui import AccountGUI
-
+from gui.login_gui import LoginGui
+from gui.account_gui import AccountGUI
 
 class MainWindow:
     pass
@@ -17,7 +16,7 @@ class MainGui:
         self.main_win.minsize(width=550, height=200)
 
         # Load the image to be displayed in the window
-        self.photo = tk.PhotoImage(file="shorepicture.png")
+        self.photo = tk.PhotoImage(file="gui/shorepicture.png")
 
         # Create and display the image label
         self.image_label = tk.Label(
