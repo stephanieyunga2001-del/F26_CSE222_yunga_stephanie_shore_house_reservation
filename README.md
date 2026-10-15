@@ -6,19 +6,11 @@
 CSE222-python-project-starter-code/
 ├── main.py
 ├── application/
-│   └── README.md
-├── data/
-│   └── README.md
-└── gui/
-    ├── README.md
-    ├── main_window.py
-    ├── login_gui.py
-=======
 │   ├── README.md
 |   ├── password_utils.py
 |   ├── account_service.py
 |   ├── login_service.py
-|
+│   └── README.md
 ├── data/
 |   ├── account_storage.py
 |   ├── accounts.json
