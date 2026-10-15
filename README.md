@@ -33,7 +33,6 @@ CSE222-python-project-starter-code/
     ├── main_window.py
     ├── login_gui.py
     ├── main_reservation_window.py
->>>>>>> jack/main
     └── account_gui.py
 ```
 
