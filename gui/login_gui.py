@@ -1,111 +1,140 @@
 import tkinter as tk
-
-class LoginGUI:
-    def __init__(self):
-
-        #Create the Login window
-        self.window = tk.Toplevel()
-        self.window.title("User Login")
-        self.window.minsize(width=400, height=300)
-
-        # Create the heading
-        self.heading_label = tk.Label(
-            self.window,
-            text="User Login",
-            font=("Helvetica", 16),
-            fg="blue"
-        )
-
-        self.heading_label.grid(
-            row=0,
-            column=0,
-            columnspan=2,
-            padx=15,
-            pady=15
-        )
+from tkinter import messagebox
+from application.login_service import login_user as verify_login
+from gui.main_reservation_window import ShoreHouseApp
 
 
-        # Create username label
+class LoginGui:
+
+    def __init__(self, main_win):
+        # Keep a reference to the original main window
+        self.parent = main_win
+
+        # Create a separate login window
+        self.main_win = tk.Toplevel(self.parent)
+        self.main_win.title("Bay Shore Get-Away - Login")
+        self.main_win.minsize(width=450, height=350)
+
+        # Configure rows and columns
+        self.main_win.rowconfigure(0, weight=0)
+        self.main_win.rowconfigure(1, weight=0)
+        self.main_win.rowconfigure(2, weight=0)
+        self.main_win.columnconfigure(0, weight=1)
+
+        # Main image for GUI
+        self.photo = tk.PhotoImage(file="gui/loginpicture.png")
+        self.labelGIF = tk.Label(self.main_win, image=self.photo)
+        self.labelGIF.grid(row=0, column=0, pady=(15, 5))
+
+        # Frame for entry fields
+        self.entry_frame = tk.Frame(self.main_win)
+        self.entry_frame.grid(row=1, column=0, pady=5)
+
+        # Username label
         self.username_label = tk.Label(
-            self.window,
-            text="User Name:",
-            font=("Helvetica", 10)
+            self.entry_frame, text="User Name:", font=("Arial", 11)
         )
-
         self.username_label.grid(
-            row=1,
-            column=0,
-            padx=10,
-            pady=10
+            row=0, column=0, sticky="e", padx=5, pady=4
         )
 
-        #Create username entry box
+        # Username entry
         self.username_entry = tk.Entry(
-            self.window,
-            width=20
+            self.entry_frame, width=25, font=("Arial", 11)
         )
-
         self.username_entry.grid(
-            row=1,
-            column=1,
-            padx=10,
-            pady=10
+            row=0, column=1, padx=5, pady=4
         )
 
-        #Create password Label
+        # Password label
         self.password_label = tk.Label(
-            self.window,
-            text="Password:",
-            font=("Helvetica", 10)
+            self.entry_frame, text="Password:", font=("Arial", 11)
         )
         self.password_label.grid(
-            row=2,
-            column=0,
-            padx=10,
-            pady=10
+            row=1, column=0, sticky="e", padx=5, pady=4
         )
 
-        #Create password entry box
+        # Password entry
         self.password_entry = tk.Entry(
-            self.window,
-            width=20,
-            show="*"
+            self.entry_frame, width=25, font=("Arial", 11), show="*"
         )
-
         self.password_entry.grid(
-            row=2,
-            column=1,
-            padx=10,
-            pady=10
+            row=1, column=1, padx=5, pady=4
         )
 
-        #Create the Login button
-        self.login_button = tk.Button(
-            self.window,
-            text="User Login",
-            width=16,
-            font=("Helvetica", 10)
+        # Instruction label
+        self.instruction_label = tk.Label(
+            self.main_win,
+            text="Enter a username and password and press <enter>",
+            font=("Arial", 11),
+        )
+        self.instruction_label.grid(
+            row=2, column=0, pady=(15, 15)
         )
 
-        self.login_button.grid(
-            row=3,
-            column=0,
-            padx=10,
-            pady=15
+        # Bind Enter to the login function
+        self.password_entry.bind("<Return>", self.login_user)
+
+        # Restore the original window when X is clicked
+        self.main_win.protocol(
+            "WM_DELETE_WINDOW", self.close_window
         )
 
-                # Create the Cancel button
-        self.cancel_button = tk.Button(
-            self.window,
-            text=" Cancel ",
-            width=16,
-            font=("Helvetica", 10),
-            command=self.window.destroy
-        )
+    def close_window(self):
+        # Close the login window
+        self.main_win.destroy()
 
-        self.cancel_button.grid(
-            row=3,
-            column=1,
-            padx=10,
-            pady=15
-        )
+        # Return to the original window
+        self.parent.deiconify()
+
+    def login_user(self, event=None):
+        # Get the username and password entered by the user
+        username = self.username_entry.get().strip()
+        password = self.password_entry.get()
+
+        # Check the login details using the application layer
+        success, message = verify_login(username, password)
+
+        if success:
+            # Display a confirmation message when login succeeds
+            messagebox.showinfo(
+                "Login Successful",
+                message,
+                parent=self.main_win
+            )
+
+            # Close the login window
+            self.main_win.destroy()
+
+            # Remove the previous main menu widgets
+            for widget in self.parent.winfo_children():
+                widget.destroy()
+
+            # Open the reservation window using the existing root
+            ShoreHouseApp(self.parent)
+
+            # Make sure the reservation window is visible
+            self.parent.deiconify()
+            self.parent.lift()
+
+        else:
+            # Display an error if login fails
+            messagebox.showerror(
+                "Login Failed",
+                message,
+                parent=self.main_win
+            )
+
+            # Clear the password entry field
+            self.password_entry.delete(0, tk.END)
+
+            # Return the cursor to the password entry field
+            self.password_entry.focus_set()
+
+
+# Create an instance
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.withdraw()
+    loginSystem = LoginGui(root)
+    root.mainloop()

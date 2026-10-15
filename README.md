@@ -6,6 +6,7 @@
 CSE222-python-project-starter-code/
 ├── main.py
 ├── application/
+<<<<<<< HEAD
 │   └── README.md
 ├── data/
 │   └── README.md
@@ -13,6 +14,26 @@ CSE222-python-project-starter-code/
     ├── README.md
     ├── main_window.py
     ├── login_gui.py
+=======
+│   ├── README.md
+|   ├── password_utils.py
+|   ├── account_service.py
+|   ├── login_service.py
+|
+├── data/
+|   ├── account_storage.py
+|   ├── accounts.json
+|   ├── __init__.py
+│   └── README.md
+└── gui/
+    ├── README.md
+    ├── shorepicture.png
+    ├── shorehouse_image.jpg
+    ├── loginpicture.png
+    ├── main_window.py
+    ├── login_gui.py
+    ├── main_reservation_window.py
+>>>>>>> jack/main
     └── account_gui.py
 ```
 
