@@ -22,7 +22,6 @@ CSE222-python-project-starter-code/
 ├── data/
 |   ├── account_storage.py
 |   ├── accounts.json
-|   ├── __init__.py
 │   └── README.md
 └── gui/
     ├── README.md
