@@ -6,7 +6,6 @@
 CSE222-python-project-starter-code/
 ├── main.py
 ├── application/
-<<<<<<< HEAD
 │   └── README.md
 ├── data/
 │   └── README.md
