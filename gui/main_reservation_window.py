@@ -4,36 +4,88 @@ from data.unit_storage import load_units
 from application.reservation_service import get_available_units
 from application.reservation_service import check_reservation
 from tkinter import messagebox
+from tkcalendar import Calendar
+from datetime import date, timedelta
 
 class ShoreHouseApp:
 
-# Logic for reserving rooms
-def reserve_unit(self):
+    # Open the rental calendar
+    def open_calendar(self):
+        calendar_window = tk.Toplevel(self.main_win)
+        calendar_window.title("2027 Rental Calendar")
+        calendar_window.geometry("350x350")
 
-    selected_week = self.dropdown_var.get()
-
-    if selected_week == "Select Week":
-        tk.messagebox.showwarning(
-            "Missing Selection",
-            "Please select a rental week."
+        calendar = Calendar(
+            calendar_window,
+            selectmode="day",
+            year=2027,
+            month=5,
+            day=23,
+            date_pattern="mm/dd/yyyy",
+            weekenddays=[6, 7],
+            showweeknumbers=False
         )
-        return
 
-    selected_unit = self.unit_var.get()
-
-    success, message = check_reservation(
-        selected_unit,
-        selected_week
-    )
-# Displays message on success of a reservation
-    if success:
-        tk.messagebox.showinfo(
-            "Reservation",
-            f"{message}\n\n"
-            f"Unit: {selected_unit}\n"
-            f"Week: {selected_week}"
-        )
+        calendar.pack(pady=20)
+        calendar.selection_clear()
         
+        # Select a rental week from the calendar
+        def select_rental_week(event):
+            selected_date = calendar.selection_get()
+
+            # Start reservation on the clicked date
+            self.selected_start = selected_date
+
+            # End reservation 7 days later
+            self.selected_end = selected_date + timedelta(days=7)
+
+            # Display selected dates
+            self.selected_week_label.config(
+                text=(
+                    f"{self.selected_start:%m/%d/%Y} - "
+                    f"{self.selected_end:%m/%d/%Y}"
+                )
+            )
+
+            # Close the calendar
+            calendar_window.destroy()
+        calendar.bind("<<CalendarSelected>>", select_rental_week)
+
+           # Logic for reserving rooms
+    def reserve_unit(self):
+
+        # Check whether reservation dates were selected
+        if self.selected_start is None:
+            messagebox.showwarning(
+                "Missing Selection",
+                "Please select a reservation date from the calendar."
+            )
+            return
+
+        # Get the selected reservation dates
+        selected_week = (
+            f"{self.selected_start:%m/%d/%Y} - "
+            f"{self.selected_end:%m/%d/%Y}"
+        )
+
+        
+
+        selected_unit = self.unit_var.get()
+
+        success, message = check_reservation(
+            selected_unit,
+            selected_week
+        )
+
+        # Displays message on success of a reservation
+        if success:
+            tk.messagebox.showinfo(
+                "Reservation",
+                f"{message}\n\n"
+                f"Unit: {selected_unit}\n"
+                f"Week: {selected_week}"
+            )
+
     def __init__(self, main_win):
 
         # Use the existing main application window
@@ -99,7 +151,7 @@ def reserve_unit(self):
         # Select the Week Label
         self.select_label = tk.Label(
             self.interactive_frame,
-            text="Select the Week",
+            text="Select Your Reservation Date",
             font=("Arial", 11),
             bg="#F0F0F0"
         )
@@ -109,25 +161,36 @@ def reserve_unit(self):
             pady=(30, 5)
         )
 
-        # Week Dropdown
-        self.dropdown_var = tk.StringVar()
+        #Store reservation dates
+        self.selected_start = None
+        self.selected_end = None
 
-        self.week_dropdown = ttk.Combobox(
+        # Display selected reservation dates
+        self.selected_week_label = tk.Label(
             self.interactive_frame,
-            textvariable=self.dropdown_var,
-            state="readonly",
-            width=20,
-            font=("Arial", 9)
+            text="No reservation dates selected",
+            font=("Arial", 10),
+            bg="#F0F0F0"
         )
 
-        self.week_dropdown["values"] = ("Select Week",)
-        self.week_dropdown.current(0)
-
-        self.week_dropdown.pack(
+        self.selected_week_label.pack(
             anchor="e",
             padx=(0, 10),
-            pady=(0, 100)
+            pady=(10, 20)
         )
+        # Calendar Button
+        self.calendar_button = tk.Button(
+        self.interactive_frame,
+        text="Open Calendar",
+        font=("Arial", 9),
+        command=self.open_calendar
+    )
+
+        self.calendar_button.pack(
+        anchor="e",
+        padx=(0, 10),
+        pady=(0, 10)
+    )
 
         # Reserve Button
         self.reserve_btn = tk.Button(
@@ -135,11 +198,11 @@ def reserve_unit(self):
             text="Reserve",
             font=("Arial", 9),
             width=16,
-            bg="#E1E1E1",
-            fg="#8E8E8E",
+            bg="#228B22",
+            fg="white",
             relief="groove",
             bd=1,
-            state="disabled"
+            state="normal",
             command=self.reserve_unit
         )
 
@@ -213,6 +276,25 @@ def reserve_unit(self):
 
         # Load rental unit data
         self.units = load_units()
+        # Store the selected rental unit
+        self.unit_var = tk.StringVar(value="Ground Floor")
+        # Floor selection buttons
+        self.floor_frame = tk.Frame(
+            self.main_win,
+            bg="#F0F0F0"
+        )
+
+        self.floor_frame.pack(pady=10)
+
+        for unit in self.units:
+            tk.Radiobutton(
+                self.floor_frame,
+                text=unit[0],
+                variable=self.unit_var,
+                value=unit[0],
+                font=("Arial", 10),
+                bg="#F0F0F0"
+            ).pack(side="left", padx=10)
 
         # Display rental information
         for row_idx, unit in enumerate(self.units, start=1):
