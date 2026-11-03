@@ -187,13 +187,17 @@ class ShoreHouseApp:
         # Display rental information
         for row_idx, unit in enumerate(self.units, start=1):
 
+            # Format bathroom values as number + fraction
+            bathrooms = {
+                2.5: "2 1/2"
+            }
             formatted_unit = [
                 unit[0],
                 unit[1],
                 unit[2],
-                unit[3],
+                bathrooms.get(unit[3], str(unit[3]).rstrip("0").rstrip(".")),
                 unit[4],
-                f"${unit[5]:,.2f}",
+                f"${unit[5]:,.0f}",
                 f"${unit[6]:,.2f}"
             ]
 
