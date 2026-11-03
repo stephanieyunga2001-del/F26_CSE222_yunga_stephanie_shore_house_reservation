@@ -37,12 +37,10 @@ class ShoreHouseApp:
         self.image_spacer.pack(side="left")
         self.image_spacer.pack_propagate(False)  # Prevents the frame from shrinking down
 
-        # --- FIXED IMAGE SCALING MATH BLOCK ---
         # 1. Load your primary high-resolution raw image file
         raw_photo = tk.PhotoImage(file="gui/shorehouse_image.png")
         
         # 2. Automatically scale down the image using native integer ratios 
-        # (Change these values to 3, 4, etc. if your raw image is massive)
         self.main_win.shore_photo = raw_photo.subsample(2, 2)
         
         self.image_label = tk.Label(
@@ -142,7 +140,7 @@ class ShoreHouseApp:
         ]
 
         # Setup column expansion constraints to mirror the screenshot proportions
-        self.table_grid.columnconfigure(0, weight=3)  # Unit gets the most width space
+        self.table_grid.columnconfigure(0, weight=3)
 
         for col_idx in range(1, 7):
             self.table_grid.columnconfigure(col_idx, weight=1)

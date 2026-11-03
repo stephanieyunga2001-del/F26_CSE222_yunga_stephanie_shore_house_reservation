@@ -1,0 +1,3 @@
+Ground Floor,8,3,2.5,YES,1392,650
+Second Floor,5,2,2,YES,990,350
+Third Floor,3,1,1,YES,660,250
