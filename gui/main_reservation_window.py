@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 from data.unit_storage import load_units
+from application.reservation_service import get_available_units
+from application.reservation_service import check_reservation
 
 
 class ShoreHouseApp:
