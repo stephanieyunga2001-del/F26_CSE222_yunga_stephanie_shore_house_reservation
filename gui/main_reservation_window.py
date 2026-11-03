@@ -3,10 +3,37 @@ from tkinter import ttk
 from data.unit_storage import load_units
 from application.reservation_service import get_available_units
 from application.reservation_service import check_reservation
-
+from tkinter import messagebox
 
 class ShoreHouseApp:
 
+# Logic for reserving rooms
+def reserve_unit(self):
+
+    selected_week = self.dropdown_var.get()
+
+    if selected_week == "Select Week":
+        tk.messagebox.showwarning(
+            "Missing Selection",
+            "Please select a rental week."
+        )
+        return
+
+    selected_unit = self.unit_var.get()
+
+    success, message = check_reservation(
+        selected_unit,
+        selected_week
+    )
+# Displays message on success of a reservation
+    if success:
+        tk.messagebox.showinfo(
+            "Reservation",
+            f"{message}\n\n"
+            f"Unit: {selected_unit}\n"
+            f"Week: {selected_week}"
+        )
+        
     def __init__(self, main_win):
 
         # Use the existing main application window
@@ -113,6 +140,7 @@ class ShoreHouseApp:
             relief="groove",
             bd=1,
             state="disabled"
+            command=self.reserve_unit
         )
 
         self.reserve_btn.pack(
