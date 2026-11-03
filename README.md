@@ -14,7 +14,8 @@ CSE222-python-project-starter-code/
 ├── data/
 |   ├── account_storage.py
 |   ├── accounts.json
-|   ├── reservation_units.txt
+|   ├── unit_data.txt
+|   ├── unit_storage.py
 │   └── README.md
 └── gui/
     ├── README.md
